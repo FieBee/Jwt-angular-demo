@@ -15,15 +15,18 @@
     }
     canActivate(
       route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      state: RouterStateSnapshot):
+      Observable<boolean
+        | UrlTree>
+      | Promise<boolean
+      | UrlTree>
+      | boolean
+      | UrlTree {
 
       let url: string = state.url;
-      console.log("state.url"+ state.url)
 
-      const data =  localStorage.getItem("data");
-      if(data!==null){
-        let role = localStorage.getItem("role");
-        if(route.data['roles'].indexOf(role) === -1){
+      if(this.checkLogin()){
+        if(route.data['roles'].indexOf(this.getRole()) === -1){
           this.router.navigate(['/login'], {
             queryParams: { returnUrl: state.url }});
           return false;
@@ -32,6 +35,15 @@
       }
       this.router.navigate(['login'], { queryParams: { returnUrl: state.url } });
       return false;
+    }
 
+    checkLogin(){
+      if (localStorage.getItem("data")){
+        return true;
+      }
+      return false;
+    }
+    getRole(){
+      return localStorage.getItem("role");
     }
   }

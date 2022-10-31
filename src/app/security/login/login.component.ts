@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AppUser} from "../../entity/app-user";
 import {JwtClientService} from "../../service/jwt-client.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -9,10 +10,12 @@ import {JwtClientService} from "../../service/jwt-client.service";
 })
 export class LoginComponent implements OnInit {
 
-  app_user: AppUser={
-    username:"",
-    password:""
-  }
+  form = new FormGroup({
+    username: new FormControl(null, Validators.required),
+    password: new FormControl(null, Validators.required),
+  });
+
+
   constructor(private jwtService:JwtClientService) { }
 
   ngOnInit(): void {
@@ -27,17 +30,14 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("data",data);
       localStorage.setItem("token",JSON.parse(data).token);
       localStorage.setItem("role",JSON.parse(data).roles[0].name);
-
     }
-
     );
 
   }
 
 
-
   login() {
-    this.getAccessToken(this.app_user)
+    this.getAccessToken(this.form.value)
   }
 
   logout(){

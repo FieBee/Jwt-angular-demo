@@ -24,11 +24,10 @@ export const ROUTES: Routes = [
     component: ProductComponent,
     canActivate: [AuthGuard],
     data:{
-      roles:["ROLE_ADMIN"]
+      roles:["ROLE_USER"]
     }
   },
   { path: '**', component: NotfoundComponent },
-  // { path: '',pathMatch: 'full', redirectTo: 'product' }
 ];
 
 @NgModule({
